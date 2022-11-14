@@ -38,9 +38,9 @@ const helper: ApiRouteHandler<IRequestBody> = async (req, res) => {
     return;
   }
 
-  const usersCollection = client.db().collection('users');
+  const users = client.db().collection('users');
 
-  const user = await usersCollection.findOne({ email: newUserEmail });
+  const user = await users.findOne({ email: newUserEmail });
 
   if (user) {
     client.close();
