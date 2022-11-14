@@ -66,16 +66,15 @@ const helper: ApiRouteHandler<IRequestBody> = async (req, res) => {
         .db()
         .collection('users-without-activation');
 
-      const user = await usersWithoutActivation.findOne({
-        email: newUserEmail
-      });
+      const user = await usersWithoutActivation.findOne({ token });
 
       if (!user) {
         await usersWithoutActivation.insertOne({
-          email: newUserEmail,
           token
         });
       }
+
+      client.close();
     } catch (error) {
       client.close();
       res.status(500).json({
@@ -85,7 +84,6 @@ const helper: ApiRouteHandler<IRequestBody> = async (req, res) => {
     }
   });
 
-  client.close();
   res.status(200).json({
     message: `Email with link is send to ${newUserEmail}. Please Check your mail to set password and finish registration.`
   });
