@@ -12,7 +12,7 @@ interface IRequestBody extends NextApiRequest {
   };
 }
 
-const helper: ApiRouteHandler<IRequestBody> = async (req, res) => {
+const handler: ApiRouteHandler<IRequestBody> = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).json({ message: 'Method not allowed' });
     return;
@@ -89,4 +89,4 @@ const helper: ApiRouteHandler<IRequestBody> = async (req, res) => {
   });
 };
 
-export default helper;
+export default handler;

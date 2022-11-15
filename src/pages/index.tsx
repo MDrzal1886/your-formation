@@ -6,7 +6,7 @@ const Home = () => {
     e.preventDefault();
     try {
       const res = await fetch('api/sign-up', {
-        method: 'Post',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
