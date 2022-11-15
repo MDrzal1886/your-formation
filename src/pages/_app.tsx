@@ -1,5 +1,14 @@
-import type { AppProps } from 'next/app';
+import { FC } from 'react';
+import { SessionProvider } from 'next-auth/react';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
+import { IAppProps } from 'src/types';
+
+const App: FC<IAppProps> = ({ Component, pageProps }: IAppProps) => {
+  return (
+    <SessionProvider session={pageProps.session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  );
+};
+
+export default App;
