@@ -1,8 +1,10 @@
+import { FormEvent, useRef, useState } from 'react';
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
   NextPage
 } from 'next';
+import { useRouter } from 'next/router';
 import jwt from 'jwt-simple';
 
 import { connectToDatabase } from 'src/api/db';
@@ -14,6 +16,40 @@ interface IProps {
 }
 
 const SetPassword: NextPage<IProps> = ({ email, isTokenExist, token }) => {
+  const router = useRouter();
+
+  const passwordInput = useRef<HTMLInputElement>(null);
+  const repeatPasswordInput = useRef<HTMLInputElement>(null);
+  const [validation, setValidation] = useState(true);
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (passwordInput.current?.value !== repeatPasswordInput.current?.value) {
+      setValidation(false);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/set-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token, password: passwordInput.current?.value })
+      });
+
+      if (res.ok && passwordInput.current && repeatPasswordInput.current) {
+        passwordInput.current.value = '';
+        repeatPasswordInput.current.value = '';
+        setValidation(true);
+        router.replace('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (!isTokenExist) {
     return <div>Invalid token</div>;
   }
@@ -23,9 +59,16 @@ const SetPassword: NextPage<IProps> = ({ email, isTokenExist, token }) => {
   }
 
   return (
-    <form>
-      <input type="password" />
-      <input type="password" />
+    <form onSubmit={onSubmit}>
+      {!validation && <p>Passwords do not match</p>}
+      <input
+        type="password"
+        ref={passwordInput}
+      />
+      <input
+        type="password"
+        ref={repeatPasswordInput}
+      />
       <button>Set Password</button>
     </form>
   );
