@@ -9,11 +9,12 @@
 
   .pitch {
     background-color: green;
-    width: 400px;
-    min-height: 400px;
+    width: 450px;
+    min-height: 450px;
     position: relative;
 
     .player {
+      position: absolute;
       background: {
         color: red;
       }
