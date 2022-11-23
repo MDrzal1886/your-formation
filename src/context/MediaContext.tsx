@@ -20,11 +20,12 @@ const MediaContext = createContext<IMediaContext>({
 });
 
 export const MediaContextProvider: FC<IChildren> = ({ children }) => {
-  const sM = useMedia('(min-width: 640px)');
-  const mD = useMedia('(min-width: 768px)');
-  const lG = useMedia('(min-width: 1024px)');
-  const xL = useMedia('(min-width: 1200px)');
-  const isXs = !sM && !mD && !lG && !xL;
+  const xS = useMedia('(max-width: 640px)', false);
+  const sM = useMedia('(min-width: 640px)', false);
+  const mD = useMedia('(min-width: 768px)', false);
+  const lG = useMedia('(min-width: 1024px)', false);
+  const xL = useMedia('(min-width: 1200px)', false);
+  const isXs = xS && !sM && !mD && !lG && !xL;
   const isSm = sM && !mD;
   const isMd = mD && !lG;
   const isLg = lG && !xL;
