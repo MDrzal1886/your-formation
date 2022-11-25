@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex: {
+    direction: column;
+  }
+  align: {
+    items: center;
+  }
+
+  .pitch {
+    background-color: green;
+    width: 300px;
+    min-height: 400px;
+    position: relative;
+
+    .player {
+      position: absolute;
+      background: {
+        color: red;
+      }
+      border: {
+        radius: 50%;
+      }
+      line-height: 30px;
+      width: 30px;
+      text-align: center;
+    }
+
+    @media (min-width: 640px) {
+      width: 400px;
+      min-height: 500px;
+
+      .player {
+        line-height: 40px;
+        width: 40px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      width: 500px;
+      min-height: 600px;
+
+      .player {
+        line-height: 50px;
+        width: 50px;
+      }
+    }
+  }
+}
