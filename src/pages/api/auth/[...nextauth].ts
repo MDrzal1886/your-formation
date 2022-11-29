@@ -3,7 +3,7 @@ import type { NextAuthOptions } from 'next-auth';
 import Providers from 'next-auth/providers/credentials';
 import type { MongoClient } from 'mongodb';
 
-import { connectToDatabase } from 'src/api/db';
+import { connectToDatabase } from 'src/api/db/connect';
 import { verifyPassword } from 'src/api/auth';
 
 export const authOptions: NextAuthOptions = {

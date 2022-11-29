@@ -3,8 +3,9 @@ import type { MongoClient } from 'mongodb';
 import jwt from 'jwt-simple';
 
 import { ApiRouteHandler } from 'src/api/baseTypes';
-import { connectToDatabase } from 'src/api/db';
+import { connectToDatabase } from 'src/api/db/connect';
 import { getTransporter, mailToSend } from 'src/api/nodemailer';
+import type { IUser, IUserWithoutActivation } from 'src/api/db/types';
 
 interface IRequestBody extends NextApiRequest {
   body: {
@@ -38,7 +39,7 @@ const handler: ApiRouteHandler<IRequestBody> = async (req, res) => {
     return;
   }
 
-  const users = client.db().collection('users');
+  const users = client.db().collection<IUser>('users');
 
   const user = await users.findOne({ email: newUserEmail });
 
@@ -64,7 +65,7 @@ const handler: ApiRouteHandler<IRequestBody> = async (req, res) => {
     try {
       const usersWithoutActivation = client
         .db()
-        .collection('users-without-activation');
+        .collection<IUserWithoutActivation>('users-without-activation');
 
       const user = await usersWithoutActivation.findOne({ token });
 

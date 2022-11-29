@@ -7,7 +7,7 @@ import type {
 import { useRouter } from 'next/router';
 import jwt from 'jwt-simple';
 
-import { connectToDatabase } from 'src/api/db';
+import { connectToDatabase } from 'src/api/db/connect';
 
 interface IProps {
   email?: string;
