@@ -5,6 +5,7 @@ import useMediaContext from 'src/context/MediaContext';
 
 import styles from './formation.module.scss';
 import useFormation from './useFormation';
+import type { IPlayersPosition } from 'src/api/db/types';
 
 const playerss = [
   {
@@ -238,15 +239,7 @@ const Formation = () => {
     }
   };
 
-  const getPosition = (
-    pos: 'x' | 'y',
-    player: {
-      num: number;
-      smallPitch: { posX: number; posY: number };
-      middlePitch: { posX: number; posY: number };
-      largePitch: { posX: number; posY: number };
-    }
-  ) => {
+  const getPosition = (pos: 'x' | 'y', player: IPlayersPosition) => {
     return isLandscape
       ? isXs || isSm
         ? pos === 'x'
@@ -276,6 +269,21 @@ const Formation = () => {
       : 0;
   };
 
+  const handleSave = async () => {
+    const res = await fetch('/api/formations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        formationName: 'testName2',
+        playersPositions
+      })
+    });
+
+    console.log(res);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.pitch}>
@@ -296,6 +304,7 @@ const Formation = () => {
           </Draggable>
         ))}
       </div>
+      <button onClick={handleSave}>Save</button>
     </div>
   );
 };

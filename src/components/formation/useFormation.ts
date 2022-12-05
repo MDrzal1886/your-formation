@@ -1,22 +1,10 @@
 import { useState } from 'react';
 import { DraggableData, DraggableEvent } from 'react-draggable';
 
+import type { IPlayersPosition } from 'src/api/db/types';
+
 const useFormation = (
-  players: {
-    num: number;
-    smallPitch: {
-      posX: number;
-      posY: number;
-    };
-    middlePitch: {
-      posX: number;
-      posY: number;
-    };
-    largePitch: {
-      posX: number;
-      posY: number;
-    };
-  }[],
+  players: IPlayersPosition[],
   pitchSize: string,
   playerSize: number,
   isLandscape: boolean
@@ -26,12 +14,7 @@ const useFormation = (
   const handleOnStop = (
     e: DraggableEvent,
     data: DraggableData,
-    player: {
-      num: number;
-      smallPitch: { posX: number; posY: number };
-      middlePitch: { posX: number; posY: number };
-      largePitch: { posX: number; posY: number };
-    }
+    player: IPlayersPosition
   ) => {
     let isCovered = false;
 

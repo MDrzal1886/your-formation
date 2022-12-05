@@ -50,7 +50,11 @@ const handler: ApiRouteHandler<IRequestBody> = async (req, res) => {
   const users = client.db().collection<IUser>('users');
 
   try {
-    await users.insertOne({ email: userEmail, password: hashedPassword });
+    await users.insertOne({
+      email: userEmail,
+      password: hashedPassword,
+      myFormations: []
+    });
   } catch (error) {
     client.close();
     res.status(500).json({
