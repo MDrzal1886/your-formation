@@ -1,9 +1,10 @@
-import { useMemo, useRef, useState } from 'react';
-import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import { useMemo, useRef } from 'react';
+import Draggable from 'react-draggable';
 
 import useMediaContext from 'src/context/MediaContext';
 
 import styles from './formation.module.scss';
+import useFormation from './useFormation';
 
 const playerss = [
   {
@@ -174,32 +175,40 @@ const playerss = [
 ];
 
 const Formation = () => {
-  const player1Ref = useRef(null);
-  const player2Ref = useRef(null);
-  const player3Ref = useRef(null);
-  const player4Ref = useRef(null);
-  const player5Ref = useRef(null);
-  const player6Ref = useRef(null);
-  const player7Ref = useRef(null);
-  const player8Ref = useRef(null);
-  const player9Ref = useRef(null);
-  const player10Ref = useRef(null);
-  const player11Ref = useRef(null);
+  const player1Ref = useRef<HTMLDivElement>(null);
+  const player2Ref = useRef<HTMLDivElement>(null);
+  const player3Ref = useRef<HTMLDivElement>(null);
+  const player4Ref = useRef<HTMLDivElement>(null);
+  const player5Ref = useRef<HTMLDivElement>(null);
+  const player6Ref = useRef<HTMLDivElement>(null);
+  const player7Ref = useRef<HTMLDivElement>(null);
+  const player8Ref = useRef<HTMLDivElement>(null);
+  const player9Ref = useRef<HTMLDivElement>(null);
+  const player10Ref = useRef<HTMLDivElement>(null);
+  const player11Ref = useRef<HTMLDivElement>(null);
 
-  const [playersPositions, setPlayersPositions] = useState(playerss);
+  const { isXs, isSm, isMd, isLg, isXl, isLandscape } = useMediaContext();
 
-  const { isXs, isSm, isMd, isLg, isXl } = useMediaContext();
-
-  const pitchSize = useMemo(
-    () =>
-      isXs
-        ? 'smallPitch'
-        : isMd || isSm
-        ? 'middlePitch'
-        : isLg || isXl
-        ? 'largePitch'
-        : '',
+  const { pitchSize, playerSize } = useMemo(
+    () => ({
+      pitchSize:
+        isXs || isSm
+          ? 'smallPitch'
+          : isMd
+          ? 'middlePitch'
+          : isLg || isXl
+          ? 'largePitch'
+          : '',
+      playerSize: isXs || isSm ? 30 : isMd ? 40 : isLg || isXl ? 50 : 0
+    }),
     [isXs, isSm, isMd, isLg, isXl]
+  );
+
+  const { playersPositions, handleOnStop } = useFormation(
+    playerss,
+    pitchSize,
+    playerSize,
+    isLandscape
   );
 
   const getRef = (num: number) => {
@@ -229,9 +238,8 @@ const Formation = () => {
     }
   };
 
-  const handleOnStop = (
-    e: DraggableEvent,
-    data: DraggableData,
+  const getPosition = (
+    pos: 'x' | 'y',
     player: {
       num: number;
       smallPitch: { posX: number; posY: number };
@@ -239,93 +247,37 @@ const Formation = () => {
       largePitch: { posX: number; posY: number };
     }
   ) => {
-    const playerSize = isXs ? 30 : isMd || isSm ? 40 : isLg || isXl ? 50 : 0;
-
-    let isCovered = false;
-
-    playersPositions.forEach((playerPosition, index) => {
-      const sizeOfPitch = () => {
-        switch (pitchSize) {
-          case 'smallPitch':
-            return playerPosition.smallPitch;
-          case 'middlePitch':
-            return playerPosition.middlePitch;
-          case 'largePitch':
-            return playerPosition.largePitch;
-          default:
-            return playerPosition.smallPitch;
-        }
-      };
-
-      if (index === player.num - 1) return;
-
-      if (
-        !(data.x < sizeOfPitch().posX - playerSize) &&
-        !(data.x > sizeOfPitch().posX + playerSize) &&
-        !(data.y < sizeOfPitch().posY - playerSize) &&
-        !(data.y > sizeOfPitch().posY + playerSize)
-      ) {
-        isCovered = true;
-      }
-    });
-
-    if (isCovered) return;
-
-    const changedPlayersPositions = playersPositions.map(
-      (playerPosition, index) => {
-        if (index !== player.num - 1) return playerPosition;
-
-        switch (pitchSize) {
-          case 'smallPitch':
-            return {
-              ...playerPosition,
-              smallPitch: { posX: data.x, posY: data.y },
-              middlePitch: {
-                posX: Math.round(Math.round(data.x) * 1.33),
-                posY: Math.round(Math.round(data.y) * 1.33)
-              },
-              largePitch: {
-                posX: Math.round(Math.round(data.x) * 1.66),
-                posY: Math.round(Math.round(data.y) * 1.66)
-              }
-            };
-          case 'middlePitch':
-            return {
-              ...playerPosition,
-              smallPitch: {
-                posX: Math.round(Math.round(data.x) / 1.33),
-                posY: Math.round(Math.round(data.y) / 1.33)
-              },
-              middlePitch: { posX: data.x, posY: data.y },
-              largePitch: {
-                posX: Math.round(Math.round(data.x) * 1.25),
-                posY: Math.round(Math.round(data.y) * 1.25)
-              }
-            };
-          case 'largePitch':
-            return {
-              ...playerPosition,
-              smallPitch: {
-                posX: Math.round(Math.round(data.x) / 1.66),
-                posY: Math.round(Math.round(data.y) / 1.66)
-              },
-              middlePitch: {
-                posX: Math.round(Math.round(data.x) / 1.25),
-                posY: Math.round(Math.round(data.y) / 1.25)
-              },
-              largePitch: { posX: data.x, posY: data.y }
-            };
-          default:
-            return playerPosition;
-        }
-      }
-    );
-    setPlayersPositions(changedPlayersPositions);
+    return isLandscape
+      ? isXs || isSm
+        ? pos === 'x'
+          ? player.smallPitch.posY
+          : player.smallPitch.posX
+        : isMd
+        ? pos === 'x'
+          ? player.middlePitch.posY
+          : player.middlePitch.posX
+        : isLg || isXl
+        ? pos === 'x'
+          ? player.largePitch.posY
+          : player.largePitch.posX
+        : 0
+      : isXs || isSm
+      ? pos === 'x'
+        ? player.smallPitch.posX
+        : player.smallPitch.posY
+      : isMd
+      ? pos === 'x'
+        ? player.middlePitch.posX
+        : player.middlePitch.posY
+      : isLg || isXl
+      ? pos === 'x'
+        ? player.largePitch.posX
+        : player.largePitch.posY
+      : 0;
   };
 
   return (
     <div className={styles.container}>
-      <h1>Formation</h1>
       <div className={styles.pitch}>
         {playersPositions.map((player) => (
           <Draggable
@@ -334,20 +286,8 @@ const Formation = () => {
             nodeRef={getRef(player.num)}
             key={player.num}
             position={{
-              x: isXs
-                ? player.smallPitch.posX
-                : isMd || isSm
-                ? player.middlePitch.posX
-                : isLg || isXl
-                ? player.largePitch.posX
-                : 0,
-              y: isXs
-                ? player.smallPitch.posY
-                : isMd || isSm
-                ? player.middlePitch.posY
-                : isLg || isXl
-                ? player.largePitch.posY
-                : 0
+              x: getPosition('x', player),
+              y: getPosition('y', player)
             }}
             onStop={(e, data) => handleOnStop(e, data, player)}
             disabled={player.num === 1}

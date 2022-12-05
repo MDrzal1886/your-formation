@@ -9,6 +9,7 @@ interface IMediaContext {
   isMd: boolean;
   isLg: boolean;
   isXl: boolean;
+  isLandscape: boolean;
 }
 
 const MediaContext = createContext<IMediaContext>({
@@ -16,7 +17,8 @@ const MediaContext = createContext<IMediaContext>({
   isSm: false,
   isMd: false,
   isLg: false,
-  isXl: false
+  isXl: false,
+  isLandscape: false
 });
 
 export const MediaContextProvider: FC<IChildren> = ({ children }) => {
@@ -30,9 +32,12 @@ export const MediaContextProvider: FC<IChildren> = ({ children }) => {
   const isMd = mD && !lG;
   const isLg = lG && !xL;
   const isXl = xL;
+  const isLandscape = useMedia('(orientation: landscape)', false);
 
   return (
-    <MediaContext.Provider value={{ isXs, isSm, isMd, isLg, isXl }}>
+    <MediaContext.Provider
+      value={{ isXs, isSm, isMd, isLg, isXl, isLandscape }}
+    >
       {children}
     </MediaContext.Provider>
   );

@@ -26,13 +26,23 @@
       text-align: center;
     }
 
-    @media (min-width: 640px) {
+    @media (orientation: landscape) {
+      width: 400px;
+      min-height: 300px;
+    }
+
+    @media (min-width: 768px) {
       width: 400px;
       min-height: 500px;
 
       .player {
         line-height: 40px;
         width: 40px;
+      }
+
+      @media (orientation: landscape) {
+        width: 500px;
+        min-height: 400px;
       }
     }
 
@@ -43,6 +53,11 @@
       .player {
         line-height: 50px;
         width: 50px;
+      }
+
+      @media (orientation: landscape) {
+        width: 600px;
+        min-height: 500px;
       }
     }
   }
