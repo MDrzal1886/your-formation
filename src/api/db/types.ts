@@ -1,3 +1,5 @@
+import type { ObjectId } from 'mongodb';
+
 export interface IPlayersPosition {
   num: number;
   smallPitch: {
@@ -15,6 +17,7 @@ export interface IPlayersPosition {
 }
 
 export interface IFormation {
+  createdBy: ObjectId;
   formationName: string;
   playersPositions: IPlayersPosition[];
 }
@@ -22,7 +25,7 @@ export interface IFormation {
 export interface IUser {
   email: string;
   password: string;
-  myFormations: IFormation[];
+  myFormations: ObjectId[];
 }
 
 export interface IUserWithoutActivation {

@@ -1,11 +1,11 @@
 import type { NextApiRequest } from 'next';
 import { unstable_getServerSession } from 'next-auth';
-import type { MongoClient } from 'mongodb';
+import type { InsertOneResult, MongoClient, WithId } from 'mongodb';
 
 import { ApiRouteHandler } from 'src/api/baseTypes';
 import { connectToDatabase } from 'src/api/db/connect';
 import { authOptions } from '../auth/[...nextauth]';
-import type { IPlayersPosition, IUser } from 'src/api/db/types';
+import type { IFormation, IPlayersPosition, IUser } from 'src/api/db/types';
 
 interface IRequestBody extends NextApiRequest {
   body: {
@@ -58,8 +58,22 @@ const handler: ApiRouteHandler<IRequestBody> = async (req, res) => {
     return;
   }
 
+  const formations = client.db().collection<IFormation>('formations');
+
+  let usersFormations: WithId<IFormation>[];
+
+  try {
+    usersFormations = await formations.find({ createdBy: user._id }).toArray();
+  } catch (error) {
+    client.close();
+    res
+      .status(500)
+      .json({ message: 'Could not connect to database. Please try later.' });
+    return;
+  }
+
   if (
-    user.myFormations.find(
+    usersFormations.find(
       (formation) => formation.formationName === formationName
     )
   ) {
@@ -70,17 +84,34 @@ const handler: ApiRouteHandler<IRequestBody> = async (req, res) => {
     return;
   }
 
-  const newMyFormations = [
-    ...user.myFormations,
-    { formationName, playersPositions }
-  ];
-
-  user.myFormations = newMyFormations;
+  let newFormation: InsertOneResult<IFormation>;
 
   try {
-    await users.findOneAndReplace({ email: userEmail }, user);
+    newFormation = await formations.insertOne({
+      createdBy: user._id,
+      formationName,
+      playersPositions
+    });
+  } catch (error) {
+    client.close();
+    res.status(500).json({
+      message: 'Could not store into database. Please try later.'
+    });
+    return;
+  }
+
+  try {
+    const newMyFormations = [...user.myFormations, newFormation.insertedId];
+
+    await users.findOneAndUpdate(
+      { email: userEmail },
+      { $set: { myFormations: newMyFormations } }
+    );
+
     client.close();
   } catch (error) {
+    await formations.findOneAndDelete({ _id: newFormation.insertedId });
+
     client.close();
     res.status(500).json({
       message: 'Could not store into database. Please try later.'
