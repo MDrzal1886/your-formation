@@ -1,181 +1,17 @@
-import { useMemo, useRef } from 'react';
+import { FC, useMemo, useRef } from 'react';
 import Draggable from 'react-draggable';
 
 import useMediaContext from 'src/context/MediaContext';
 
 import styles from './formation.module.scss';
 import useFormation from './useFormation';
-import type { IPlayersPosition } from 'src/api/db/types';
+import type { IFormation, IPlayersPosition } from 'src/api/db/types';
 
-const playerss = [
-  {
-    num: 1,
-    smallPitch: {
-      posX: 135,
-      posY: 30
-    },
-    middlePitch: {
-      posX: 180,
-      posY: 40
-    },
-    largePitch: {
-      posX: 225,
-      posY: 50
-    }
-  },
-  {
-    num: 2,
-    smallPitch: {
-      posX: 36,
-      posY: 90
-    },
-    middlePitch: {
-      posX: 48,
-      posY: 120
-    },
-    largePitch: {
-      posX: 60,
-      posY: 150
-    }
-  },
-  {
-    num: 3,
-    smallPitch: {
-      posX: 102,
-      posY: 90
-    },
-    middlePitch: {
-      posX: 136,
-      posY: 120
-    },
-    largePitch: {
-      posX: 180,
-      posY: 150
-    }
-  },
-  {
-    num: 4,
-    smallPitch: {
-      posX: 168,
-      posY: 90
-    },
-    middlePitch: {
-      posX: 224,
-      posY: 120
-    },
-    largePitch: {
-      posX: 280,
-      posY: 150
-    }
-  },
-  {
-    num: 5,
-    smallPitch: {
-      posX: 234,
-      posY: 90
-    },
-    middlePitch: {
-      posX: 312,
-      posY: 120
-    },
-    largePitch: {
-      posX: 390,
-      posY: 150
-    }
-  },
-  {
-    num: 6,
-    smallPitch: {
-      posX: 36,
-      posY: 150
-    },
-    middlePitch: {
-      posX: 48,
-      posY: 200
-    },
-    largePitch: {
-      posX: 60,
-      posY: 250
-    }
-  },
-  {
-    num: 7,
-    smallPitch: {
-      posX: 102,
-      posY: 150
-    },
-    middlePitch: {
-      posX: 136,
-      posY: 200
-    },
-    largePitch: {
-      posX: 180,
-      posY: 250
-    }
-  },
-  {
-    num: 8,
-    smallPitch: {
-      posX: 168,
-      posY: 150
-    },
-    middlePitch: {
-      posX: 224,
-      posY: 200
-    },
-    largePitch: {
-      posX: 280,
-      posY: 250
-    }
-  },
-  {
-    num: 9,
-    smallPitch: {
-      posX: 234,
-      posY: 150
-    },
-    middlePitch: {
-      posX: 312,
-      posY: 200
-    },
-    largePitch: {
-      posX: 390,
-      posY: 250
-    }
-  },
-  {
-    num: 10,
-    smallPitch: {
-      posX: 80,
-      posY: 210
-    },
-    middlePitch: {
-      posX: 106,
-      posY: 280
-    },
-    largePitch: {
-      posX: 133,
-      posY: 350
-    }
-  },
-  {
-    num: 11,
-    smallPitch: {
-      posX: 190,
-      posY: 210
-    },
-    middlePitch: {
-      posX: 252,
-      posY: 280
-    },
-    largePitch: {
-      posX: 316,
-      posY: 350
-    }
-  }
-];
+interface IFormationProps {
+  formation: IFormation;
+}
 
-const Formation = () => {
+const Formation: FC<IFormationProps> = ({ formation }) => {
   const player1Ref = useRef<HTMLDivElement>(null);
   const player2Ref = useRef<HTMLDivElement>(null);
   const player3Ref = useRef<HTMLDivElement>(null);
@@ -206,7 +42,7 @@ const Formation = () => {
   );
 
   const { playersPositions, handleOnStop } = useFormation(
-    playerss,
+    formation.playersPositions,
     pitchSize,
     playerSize,
     isLandscape
@@ -276,7 +112,7 @@ const Formation = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        formationName: 'testName2',
+        formationName: 'testName10',
         playersPositions
       })
     });
