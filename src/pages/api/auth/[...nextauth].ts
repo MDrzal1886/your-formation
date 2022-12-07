@@ -8,9 +8,10 @@ import { verifyPassword } from 'src/api/auth';
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: async ({ session }) => {
+    session: async ({ session, token }) => {
       session.user = {
-        email: session.user?.email || null
+        email: session.user?.email || null,
+        id: token.sub || ''
       };
       return session;
     }
