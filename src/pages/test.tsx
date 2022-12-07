@@ -3,26 +3,46 @@ import type {
   GetServerSidePropsContext,
   NextPage
 } from 'next';
-import { unstable_getServerSession } from 'next-auth';
+import { Session, unstable_getServerSession } from 'next-auth';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
-import { connectToDatabase } from 'src/api/db/connect';
-import type { IFormation, IUser } from 'src/api/db/types';
+import type { IFormation } from 'src/api/db/types';
 import { authOptions } from './api/auth/[...nextauth]';
 import Formation from 'src/components/formation/Formation';
+import { connectToDatabase } from 'src/api/db/connect';
 
 interface IProps {
+  session: Session | null;
   formations: IFormation[];
 }
 
-const Test: NextPage<IProps> = ({ formations }) => {
-  if (formations.length < 1) {
+const Test: NextPage<IProps> = ({ session, formations }) => {
+  const userId = session?.user?.id || '';
+
+  const { data } = useQuery<
+    unknown,
+    Error,
+    { data: { formations: IFormation[] } }
+  >({
+    queryKey: ['formations'],
+    queryFn: () => {
+      if (!userId) return;
+
+      const response = axios.get(`/api/formations/${userId}`);
+      return response;
+    },
+    initialData: { data: { formations } }
+  });
+
+  if (!data.data.formations) {
     return <div>No formation</div>;
   }
 
-  return <Formation formation={formations[1]} />;
+  return <Formation formation={data.data.formations[1]} />;
 };
 
-export const getServerSideProps: GetServerSideProps<IProps> = async (
+export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext
 ) => {
   const session = await unstable_getServerSession(
@@ -33,24 +53,12 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (
 
   if (!session) {
     return {
-      props: { formations: [] }
+      props: {}
     };
   }
+  const userId = session.user?.id || '';
 
   const client = await connectToDatabase();
-
-  const userEmail = session.user?.email || '';
-
-  const user = await client
-    .db()
-    .collection<IUser>('users')
-    .findOne({ email: userEmail });
-
-  if (!user) {
-    return {
-      props: { formations: [] }
-    };
-  }
 
   const formations = await client
     .db()
@@ -59,11 +67,11 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (
     .toArray();
 
   const userFormations = formations.filter(
-    (formation) => formation.createdBy.toString() === user._id.toString()
+    (formation) => formation.createdBy.toString() === userId
   );
 
   return {
-    props: { formations: JSON.parse(JSON.stringify(userFormations)) }
+    props: { formations: JSON.parse(JSON.stringify(userFormations)), session }
   };
 };
 
