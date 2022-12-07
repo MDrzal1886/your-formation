@@ -1,8 +1,8 @@
 import type { NextApiRequest } from 'next';
 import { unstable_getServerSession } from 'next-auth';
-import type { InsertOneResult, MongoClient, WithId } from 'mongodb';
+import type { InsertOneResult, MongoClient } from 'mongodb';
 
-import { ApiRouteHandler } from 'src/api/baseTypes';
+import type { ApiRouteHandler } from 'src/api/baseTypes';
 import { connectToDatabase } from 'src/api/db/connect';
 import { authOptions } from '../auth/[...nextauth]';
 import type { IFormation, IPlayersPosition, IUser } from 'src/api/db/types';
@@ -19,6 +19,7 @@ const handler: ApiRouteHandler<IRequestBody> = async (req, res) => {
     res.status(405).json({ message: 'Method not allowed' });
     return;
   }
+
   const session = await unstable_getServerSession(req, res, authOptions);
 
   if (!session) {
@@ -60,7 +61,7 @@ const handler: ApiRouteHandler<IRequestBody> = async (req, res) => {
 
   const formations = client.db().collection<IFormation>('formations');
 
-  let usersFormations: WithId<IFormation>[];
+  let usersFormations: IFormation[];
 
   try {
     usersFormations = await formations.find({ createdBy: user._id }).toArray();
