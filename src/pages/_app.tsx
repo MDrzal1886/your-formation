@@ -9,7 +9,17 @@ import { ThemeProvider } from 'next-themes';
 import 'src/styles/global.scss';
 
 const App: FC<IAppProps> = ({ Component, pageProps }: IAppProps) => {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnMount: false,
+            refetchOnWindowFocus: false
+          }
+        }
+      })
+  );
 
   return (
     <SessionProvider session={pageProps.session}>
