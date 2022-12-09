@@ -1,0 +1,9 @@
+[data-theme='light'] {
+  --pitch: green;
+}
+
+[data-theme='dark'] {
+  background: black;
+  color: white;
+  --pitch: purple;
+}

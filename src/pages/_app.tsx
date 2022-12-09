@@ -4,6 +4,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { IAppProps } from 'src/types';
 import { MediaContextProvider } from 'src/context/MediaContext';
+import { ThemeProvider } from 'next-themes';
+
+import 'src/styles/global.scss';
 
 const App: FC<IAppProps> = ({ Component, pageProps }: IAppProps) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -12,7 +15,9 @@ const App: FC<IAppProps> = ({ Component, pageProps }: IAppProps) => {
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
         <MediaContextProvider>
-          <Component {...pageProps} />
+          <ThemeProvider enableColorScheme={false}>
+            <Component {...pageProps} />
+          </ThemeProvider>
         </MediaContextProvider>
       </QueryClientProvider>
     </SessionProvider>

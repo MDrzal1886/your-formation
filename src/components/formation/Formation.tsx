@@ -6,6 +6,7 @@ import useMediaContext from 'src/context/MediaContext';
 import styles from './formation.module.scss';
 import useFormation from './useFormation';
 import type { IFormation, IPlayersPosition } from 'src/api/db/types';
+import ThemeSwitch from '../theme-switch/ThemeSwitch';
 
 interface IFormationProps {
   formation: IFormation;
@@ -122,6 +123,7 @@ const Formation: FC<IFormationProps> = ({ formation }) => {
 
   return (
     <div className={styles.container}>
+      <ThemeSwitch />
       <div className={styles.pitch}>
         {playersPositions.map((player) => (
           <Draggable

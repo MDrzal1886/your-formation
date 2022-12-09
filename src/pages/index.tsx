@@ -4,6 +4,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { unstable_getServerSession } from 'next-auth/next';
 
 import { authOptions } from './api/auth/[...nextauth]';
+import ThemeSwitch from 'src/components/theme-switch/ThemeSwitch';
 
 const Home = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +64,7 @@ const Home = () => {
   };
   return (
     <Fragment>
+      <ThemeSwitch />
       <div>
         <form onSubmit={onSubmit}>
           <input
