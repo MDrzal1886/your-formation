@@ -1,0 +1,98 @@
+.switch {
+  position: relative;
+  height: 26px;
+  width: 40px;
+  border: {
+    radius: 13px;
+    style: solid;
+    width: 2px;
+  }
+  cursor: pointer;
+  transition: {
+    duration: 0.2s;
+    property: border-color;
+    timing-function: linear;
+  }
+
+  .dot {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+    top: 2px;
+    border: {
+      radius: 50%;
+    }
+    transition: {
+      duration: 0.2s;
+      timing-function: linear;
+    }
+
+    svg {
+      height: 10px;
+      width: 10px;
+    }
+  }
+
+  .dotLight {
+    left: 2px;
+    background: {
+      color: black;
+    }
+
+    svg {
+      fill: white;
+    }
+  }
+
+  .dotDark {
+    left: 16px;
+    background: {
+      color: white;
+    }
+
+    svg {
+      fill: black;
+    }
+  }
+
+  &:hover {
+    .dotLight {
+      transform: rotate(90deg);
+    }
+
+    .dotDark {
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+.switchLight {
+  border: {
+    color: black;
+  }
+
+  &:focus {
+    outline: {
+      color: black;
+      style: solid;
+      width: 2px;
+    }
+  }
+}
+
+.switchDark {
+  border: {
+    color: white;
+  }
+
+  &:focus {
+    outline: {
+      color: white;
+      style: solid;
+      width: 2px;
+    }
+  }
+}
