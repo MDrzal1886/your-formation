@@ -3,6 +3,7 @@
   height: 26px;
   width: 40px;
   border: {
+    color: var(--borderColor);
     radius: 13px;
     style: solid;
     width: 2px;
@@ -65,34 +66,6 @@
 
     .dotDark {
       transform: rotate(-90deg);
-    }
-  }
-}
-
-.switchLight {
-  border: {
-    color: black;
-  }
-
-  &:focus {
-    outline: {
-      color: black;
-      style: solid;
-      width: 2px;
-    }
-  }
-}
-
-.switchDark {
-  border: {
-    color: white;
-  }
-
-  &:focus {
-    outline: {
-      color: white;
-      style: solid;
-      width: 2px;
     }
   }
 }

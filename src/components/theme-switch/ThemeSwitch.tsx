@@ -29,9 +29,7 @@ const ThemeSwitch = () => {
 
   return (
     <div
-      className={`${styles.switch} ${
-        currentTheme === 'dark' ? styles.switchDark : styles.switchLight
-      }`}
+      className={styles.switch}
       onClick={(e) => {
         e.currentTarget.blur();
         toggleTheme();
@@ -40,7 +38,7 @@ const ThemeSwitch = () => {
         if (e.code !== 'Enter') return;
         toggleTheme();
       }}
-      tabIndex={1}
+      tabIndex={0}
     >
       <div
         className={`${styles.dot} ${
