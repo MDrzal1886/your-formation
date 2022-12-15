@@ -1,0 +1,32 @@
+.logoWrapper {
+  position: relative;
+  display: flex;
+  min-height: 50px;
+
+  .logo {
+    align-self: center;
+    fill: var(--logoFill);
+  }
+
+  .logoText {
+    display: block;
+    position: absolute;
+    width: 100%;
+    line-height: 7px;
+    text: {
+      align: center;
+    }
+    font: {
+      family: 'Bungee Inline', cursive, sans-serif;
+      size: 7px;
+    }
+  }
+
+  .textUp {
+    top: 2px;
+  }
+
+  .textDown {
+    bottom: 2px;
+  }
+}

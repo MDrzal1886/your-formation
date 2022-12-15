@@ -11,7 +11,7 @@ const Layout: FC<IProps> = ({ children }) => {
   return (
     <Fragment>
       <Header />
-      <main>{children}</main>
+      <main style={{ height: '1000vh' }}>{children}</main>
       <Footer />
     </Fragment>
   );
