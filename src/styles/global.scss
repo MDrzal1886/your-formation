@@ -1,15 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
+  color: inherit;
+
+  &:focus-visible {
+    outline: {
+      color: orange;
+      style: solid;
+      width: 2px;
+    }
+  }
 }
 
 [data-theme='light'] {
   --pitch: green;
+  --logoFill: black;
+  --borderColor: black;
+  --hamburgerFill: black;
+  --headerBackground: white;
 }
 
 [data-theme='dark'] {
   background: black;
   color: white;
   --pitch: purple;
+  --logoFill: white;
+  --borderColor: white;
+  --hamburgerFill: white;
+  --headerBackground: black;
 }
