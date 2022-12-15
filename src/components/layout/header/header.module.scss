@@ -1,0 +1,16 @@
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: {
+    color: var(--headerBackground);
+  }
+  z-index: 5;
+
+  .logoWrapper {
+    display: block;
+    width: 46px;
+  }
+}
