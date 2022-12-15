@@ -1,0 +1,16 @@
+.navWrapper {
+  display: flex;
+  align-items: center;
+  .hamburgerButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 30px;
+    border: none;
+    background: {
+      color: transparent;
+    }
+    cursor: pointer;
+    z-index: 20;
+  }
+}
