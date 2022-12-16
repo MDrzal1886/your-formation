@@ -1,0 +1,18 @@
+.sectionTitle {
+  margin: {
+    bottom: 10px;
+  }
+  padding: {
+    bottom: 10px;
+  }
+  border: {
+    bottom: {
+      color: var(--footerSocialsFill);
+      style: solid;
+      width: 1px;
+    }
+  }
+  text: {
+    align: center;
+  }
+}

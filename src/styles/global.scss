@@ -22,6 +22,8 @@
   --borderColor: black;
   --hamburgerFill: black;
   --headerBackground: white;
+  --footerBackground: black;
+  --footerSocialsFill: white;
 }
 
 [data-theme='dark'] {
@@ -32,4 +34,6 @@
   --borderColor: white;
   --hamburgerFill: white;
   --headerBackground: black;
+  --footerBackground: white;
+  --footerSocialsFill: black;
 }

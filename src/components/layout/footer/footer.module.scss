@@ -1,0 +1,35 @@
+.footerWrapper {
+  display: flex;
+  flex-direction: column;
+  background: {
+    color: var(--footerBackground);
+  }
+  padding: 10px 0;
+  color: var(--footerSocialsFill);
+
+  .footerSections {
+    padding: 0 20px;
+  }
+
+  .allRightsText {
+    margin: {
+      top: 10px;
+    }
+    padding: {
+      top: 10px;
+    }
+    border: {
+      top: {
+        color: var(--footerSocialsFill);
+        style: solid;
+        width: 1px;
+      }
+    }
+    text: {
+      align: center;
+    }
+    font: {
+      size: 10px;
+    }
+  }
+}
