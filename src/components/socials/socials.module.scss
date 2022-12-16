@@ -1,0 +1,15 @@
+.socialsWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .socialLink {
+    display: flex;
+    align-items: center;
+
+    svg {
+      height: 30px;
+      fill: var(--footerSocialsFill);
+    }
+  }
+}
