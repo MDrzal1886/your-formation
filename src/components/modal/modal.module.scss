@@ -1,0 +1,23 @@
+.backdrop {
+  position: fixed;
+  top: 50%;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  transform: translateY(-50%);
+  z-index: 20;
+
+  .modal {
+    position: absolute;
+    min-height: 200px;
+    width: calc(100% - 40px);
+    background: {
+      color: yellow;
+    }
+    z-index: 30;
+  }
+}

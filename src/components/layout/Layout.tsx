@@ -1,18 +1,17 @@
-import { FC, Fragment, ReactNode } from 'react';
+import { FC, Fragment } from 'react';
 
 import Footer from './footer/Footer';
 import Header from './header/Header';
+import Modal from '../modal/Modal';
+import { IChildren } from 'src/types';
 
-interface IProps {
-  children?: ReactNode;
-}
-
-const Layout: FC<IProps> = ({ children }) => {
+const Layout: FC<IChildren> = ({ children }) => {
   return (
     <Fragment>
       <Header />
-      <main style={{ height: '1000vh' }}>{children}</main>
+      <main style={{ height: '500px' }}>{children}</main>
       <Footer />
+      <Modal />
     </Fragment>
   );
 };
