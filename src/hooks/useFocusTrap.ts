@@ -3,7 +3,7 @@ const useFocusTrap = (
   hamburgerButton?: HTMLElement | null
 ) => {
   const focusableElements = elementToTrap.querySelectorAll(
-    'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled]), [tabindex = "0"]'
+    'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled]), [tabindex = "0"]'
   ) as NodeListOf<HTMLElement>;
 
   const firstFocusableElement = focusableElements[0];
@@ -40,6 +40,18 @@ const useFocusTrap = (
           return;
         }
 
+        firstFocusableElement.focus();
+        e.preventDefault();
+        return;
+      }
+
+      const focusableElementsArray = Array.from(focusableElements);
+
+      if (
+        !focusableElementsArray.find(
+          (element) => element === document.activeElement
+        )
+      ) {
         firstFocusableElement.focus();
         e.preventDefault();
       }
