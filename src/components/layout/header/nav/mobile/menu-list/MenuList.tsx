@@ -9,6 +9,9 @@ import { routeLinks } from 'src/dictionary/routeLinks';
 import ThemeSwitch from 'src/components/theme-switch/ThemeSwitch';
 import useModalContext from 'src/context/ModalContext';
 import { ModalsContent } from 'src/utils/getModalsContent';
+import useNotificationContext, {
+  NotificationStatus
+} from 'src/context/NotificationContext';
 
 interface IProps {
   isMenuOpen: boolean;
@@ -21,14 +24,30 @@ const MenuList: FC<IProps> = ({ isMenuOpen, hamburgerButton, closeMenu }) => {
 
   const { openModal, passModalContent } = useModalContext();
 
+  const { showNotification } = useNotificationContext();
+
   const { status } = useSession();
 
   const logOut = async () => {
     try {
-      await signOut({
+      const res = await signOut({
         redirect: false
       });
+
+      if (res.url) {
+        showNotification({
+          title: 'You are log out',
+          status: NotificationStatus.Success,
+          message: 'Success'
+        });
+        closeMenu();
+      }
     } catch (error) {
+      showNotification({
+        title: 'You are not log out',
+        status: NotificationStatus.Error,
+        message: 'Error'
+      });
       console.log(error);
     }
   };
