@@ -18,6 +18,8 @@ const Notification = () => {
 
     if (notification) {
       tl.to([notificationElement], {
+        backgroundColor:
+          notification.status === NotificationStatus.Success ? 'green' : 'red',
         opacity: 1,
         x: '-110%',
         right: 0,
@@ -35,11 +37,7 @@ const Notification = () => {
 
   return (
     <div
-      className={`${styles.notification} ${
-        notification && notification.status === NotificationStatus.Success
-          ? styles.success
-          : styles.error
-      }`}
+      className={styles.notification}
       onClick={hideNotification}
       ref={notificationRef}
     >
