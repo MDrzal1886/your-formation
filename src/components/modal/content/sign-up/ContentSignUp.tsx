@@ -1,57 +1,77 @@
-import { FormEvent, useRef } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useMutation } from '@tanstack/react-query';
 
 import useModalContext from 'src/context/ModalContext';
 import useNotificationContext, {
   NotificationStatus
 } from 'src/context/NotificationContext';
+import { IData, TError } from 'src/types';
+
+interface IInput {
+  email: string;
+}
 
 const ContentSignUp = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<IInput>();
 
   const { closeModal } = useModalContext();
 
   const { showNotification } = useNotificationContext();
 
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('api/sign-up', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email: inputRef.current?.value })
-      });
-
-      if (res.ok && inputRef.current) {
-        inputRef.current.value = '';
-        showNotification({
-          title: 'You are sign up',
-          status: NotificationStatus.Success,
-          message: 'You are succesfully signed up. Check Your email'
-        });
-        closeModal();
-        return;
-      }
-
+  const { mutate } = useMutation<
+    AxiosResponse<IData, TError>,
+    AxiosError<TError>,
+    { email: string }
+  >({
+    mutationFn: ({ email }) => {
+      return axios.post('api/sign-up', { email });
+    },
+    onSuccess: (data) => {
       showNotification({
-        title: 'Something went wrong',
-        status: NotificationStatus.Error,
-        message: 'Wrong'
+        title: 'Success',
+        status: NotificationStatus.Success,
+        message: data.data.message
       });
-    } catch (error) {
-      console.log(error);
+      setValue('email', '');
+      closeModal();
+    },
+    onError: (error) => {
+      showNotification({
+        title: 'Error',
+        status: NotificationStatus.Error,
+        message: error.response?.data.message || 'Something went wrong'
+      });
     }
+  });
+
+  const onSubmit: SubmitHandler<IInput> = async (data) => {
+    mutate({ email: data.email });
   };
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
+      <form
+        onSubmit={handleSubmit((data) => onSubmit(data))}
+        noValidate
+      >
         <input
           type="email"
-          ref={inputRef}
+          {...register('email', {
+            required: 'This input is required',
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: 'Incorrect email'
+            }
+          })}
         />
         <button>Sign Up</button>
+        {errors.email && <p>{errors.email.message}</p>}
       </form>
     </div>
   );

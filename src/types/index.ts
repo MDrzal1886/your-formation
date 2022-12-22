@@ -11,3 +11,9 @@ export interface IAppProps extends AppProps {
 export interface IChildren {
   children?: ReactNode;
 }
+
+export type TError = { message: string };
+
+export interface IData {
+  message: string;
+}
