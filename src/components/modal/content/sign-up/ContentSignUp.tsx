@@ -8,6 +8,7 @@ import useNotificationContext, {
 } from 'src/context/NotificationContext';
 import { IData, TError } from 'src/types';
 import Input from 'src/components/design-system/input/Input';
+import Button from 'src/components/design-system/button/Button';
 
 interface IInput {
   email: string;
@@ -25,7 +26,7 @@ const ContentSignUp = () => {
 
   const { showNotification } = useNotificationContext();
 
-  const { mutate } = useMutation<
+  const { mutate, isLoading } = useMutation<
     AxiosResponse<IData, TError>,
     AxiosError<TError>,
     { email: string }
@@ -73,7 +74,10 @@ const ContentSignUp = () => {
             }
           })}
         />
-        <button>Sign Up</button>
+        <Button
+          text="Sign up"
+          isLoading={isLoading}
+        />
       </form>
     </div>
   );

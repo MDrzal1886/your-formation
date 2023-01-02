@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 
@@ -6,6 +7,7 @@ import useNotificationContext, {
   NotificationStatus
 } from 'src/context/NotificationContext';
 import Input from 'src/components/design-system/input/Input';
+import Button from 'src/components/design-system/button/Button';
 
 interface IInputs {
   email: string;
@@ -20,12 +22,15 @@ const ContentLogIn = () => {
     formState: { errors }
   } = useForm<IInputs>();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { closeModal } = useModalContext();
 
   const { showNotification } = useNotificationContext();
 
   const onLogIn: SubmitHandler<IInputs> = async (data) => {
     try {
+      setIsLoading(true);
       const res = await signIn('credentials', {
         redirect: false,
         email: data.email,
@@ -45,12 +50,14 @@ const ContentLogIn = () => {
         return;
       }
 
+      setIsLoading(false);
       showNotification({
         title: 'Error',
         status: NotificationStatus.Error,
         message: res?.error || 'Something went wrong'
       });
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
@@ -81,7 +88,10 @@ const ContentLogIn = () => {
             required: 'This input is required'
           })}
         />
-        <button>Log in</button>
+        <Button
+          text="Log in"
+          isLoading={isLoading}
+        />
       </form>
     </div>
   );
