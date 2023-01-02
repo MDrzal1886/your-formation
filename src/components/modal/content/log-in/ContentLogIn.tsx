@@ -5,6 +5,7 @@ import useModalContext from 'src/context/ModalContext';
 import useNotificationContext, {
   NotificationStatus
 } from 'src/context/NotificationContext';
+import Input from 'src/components/design-system/input/Input';
 
 interface IInputs {
   email: string;
@@ -53,15 +54,18 @@ const ContentLogIn = () => {
       console.log(error);
     }
   };
+
   return (
     <div>
       <form
-        onSubmit={handleSubmit((data) => onLogIn(data))}
+        onSubmit={handleSubmit(onLogIn)}
         noValidate
       >
-        <input
+        <Input
           type="email"
-          {...register('email', {
+          label="Email"
+          error={errors.email}
+          inputProps={register('email', {
             required: 'This input is required',
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -69,12 +73,14 @@ const ContentLogIn = () => {
             }
           })}
         />
-        {errors.email && <p>{errors.email.message}</p>}
-        <input
+        <Input
           type="password"
-          {...register('password', { required: 'This input is required' })}
+          label="Password"
+          error={errors.password}
+          inputProps={register('password', {
+            required: 'This input is required'
+          })}
         />
-        {errors.password && <p>{errors.password.message}</p>}
         <button>Log in</button>
       </form>
     </div>

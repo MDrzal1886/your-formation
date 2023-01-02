@@ -7,6 +7,7 @@ import useNotificationContext, {
   NotificationStatus
 } from 'src/context/NotificationContext';
 import { IData, TError } from 'src/types';
+import Input from 'src/components/design-system/input/Input';
 
 interface IInput {
   email: string;
@@ -60,9 +61,11 @@ const ContentSignUp = () => {
         onSubmit={handleSubmit((data) => onSubmit(data))}
         noValidate
       >
-        <input
+        <Input
           type="email"
-          {...register('email', {
+          label="Email"
+          error={errors.email}
+          inputProps={register('email', {
             required: 'This input is required',
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -71,7 +74,6 @@ const ContentSignUp = () => {
           })}
         />
         <button>Sign Up</button>
-        {errors.email && <p>{errors.email.message}</p>}
       </form>
     </div>
   );
