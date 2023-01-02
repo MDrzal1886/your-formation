@@ -6,7 +6,7 @@ import useMediaContext from 'src/context/MediaContext';
 import styles from './formation.module.scss';
 import useFormation from './useFormation';
 import type { IFormation, IPlayersPosition } from 'src/api/db/types';
-import ThemeSwitch from '../theme-switch/ThemeSwitch';
+import ThemeSwitch from '../design-system/theme-switch/ThemeSwitch';
 
 interface IFormationProps {
   formation: IFormation;

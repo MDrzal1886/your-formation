@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import styles from './menuList.module.scss';
 import useFocusTrap from 'src/hooks/useFocusTrap';
 import { routeLinks } from 'src/dictionary/routeLinks';
-import ThemeSwitch from 'src/components/theme-switch/ThemeSwitch';
+import ThemeSwitch from 'src/components/design-system/theme-switch/ThemeSwitch';
 import useModalContext from 'src/context/ModalContext';
 import { ModalsContent } from 'src/utils/getModalsContent';
 import useNotificationContext, {
