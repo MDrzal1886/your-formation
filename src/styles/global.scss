@@ -26,6 +26,7 @@
   --footerSocialsFill: white;
   --buttonBackground: black;
   --buttonTextColor: white;
+  --backdropColor: rgba(0, 0, 0, 0.5);
 }
 
 [data-theme='dark'] {
@@ -39,4 +40,6 @@
   --footerBackground: white;
   --footerSocialsFill: black;
   --buttonBackground: white;
+  --buttonTextColor: black;
+  --backdropColor: rgba(50, 50, 50, 0.5);
 }

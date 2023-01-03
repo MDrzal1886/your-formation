@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 import styles from './modal.module.scss';
+import Close from 'src/assets/svg/close.svg';
 import useModalContext from 'src/context/ModalContext';
 import useFocusTrap from 'src/hooks/useFocusTrap';
 import useBackdrop from 'src/hooks/useBackdrop';
@@ -62,7 +63,20 @@ const Modal = () => {
         className={styles.modal}
         ref={modalRef}
       >
-        <button onClick={closeModal}>X</button>
+        <div
+          className={styles.closeIconWrapper}
+          tabIndex={0}
+          onClick={closeModal}
+          onKeyDown={(e) => {
+            if (e.code !== 'Enter') return;
+            closeModal();
+          }}
+        >
+          <Close
+            className={styles.closeIcon}
+            alt="close"
+          />
+        </div>
         {getModalContent(modalContent)}
       </div>
     </div>
