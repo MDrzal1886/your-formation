@@ -5,7 +5,6 @@ import gsap from 'gsap';
 
 import styles from './menuList.module.scss';
 import useFocusTrap from 'src/hooks/useFocusTrap';
-import { routeLinks } from 'src/dictionary/routeLinks';
 import ThemeSwitch from 'src/components/design-system/theme-switch/ThemeSwitch';
 import useModalContext from 'src/context/ModalContext';
 import { ModalsContent } from 'src/utils/getModalsContent';
@@ -13,6 +12,7 @@ import useNotificationContext, {
   NotificationStatus
 } from 'src/context/NotificationContext';
 import Button from 'src/components/design-system/button/Button';
+import { menuLinks } from 'src/dictionary/menuLinks';
 
 interface IProps {
   isMenuOpen: boolean;
@@ -97,33 +97,34 @@ const MenuList: FC<IProps> = ({ isMenuOpen, hamburgerButton, closeMenu }) => {
       className={styles.menuWrapper}
       ref={menuRef}
     >
-      <ul>
-        <li>
-          <Link
-            href={routeLinks.home}
-            onClick={closeMenu}
+      <ul className={styles.list}>
+        {menuLinks.map(({ href, text }, index) => (
+          <li
+            className={styles.listItem}
+            key={index}
           >
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link
-            href={routeLinks.test}
-            onClick={closeMenu}
-          >
-            Test
-          </Link>
-        </li>
+            <Link
+              href={href}
+              onClick={closeMenu}
+            >
+              {text}
+            </Link>
+          </li>
+        ))}
       </ul>
-      <Button
-        text={status === 'authenticated' ? 'Log out' : 'Log in'}
-        onClickFn={status === 'authenticated' ? logOut : logInClick}
-      />
-      <Button
-        text="Sign up"
-        onClickFn={signUpClick}
-      />
-      <ThemeSwitch />
+      <div className={styles.buttonsWrapper}>
+        <Button
+          text={status === 'authenticated' ? 'Log out' : 'Log in'}
+          onClickFn={status === 'authenticated' ? logOut : logInClick}
+        />
+        <Button
+          text="Sign up"
+          onClickFn={signUpClick}
+        />
+      </div>
+      <div className={styles.themeSwitchWrapper}>
+        <ThemeSwitch />
+      </div>
     </div>
   );
 };
