@@ -2,6 +2,8 @@ import { Fragment, useEffect } from 'react';
 import gsap from 'gsap';
 
 import styles from './notification.module.scss';
+import SuccessIcon from 'src/assets/svg/success.svg';
+import ErrorIcon from 'src/assets/svg/error.svg';
 import useNotificationContext, {
   NotificationStatus
 } from 'src/context/NotificationContext';
@@ -21,7 +23,7 @@ const Notification = () => {
         backgroundColor:
           notification.status === NotificationStatus.Success ? 'green' : 'red',
         opacity: 1,
-        x: '-110%',
+        x: '-60%',
         right: 0,
         duration: 0.2
       }).to([notificationElement], { x: '+=10%', duration: 0.2 });
@@ -43,8 +45,17 @@ const Notification = () => {
     >
       {notification && (
         <Fragment>
-          <p>{notification?.title}</p>
-          <p>{notification?.message}</p>
+          <div>
+            {notification.status === NotificationStatus.Success ? (
+              <SuccessIcon className={styles.icon} />
+            ) : (
+              <ErrorIcon className={styles.icon} />
+            )}
+          </div>
+          <div className={styles.contentWrapper}>
+            <p className={styles.title}>{notification.title}</p>
+            <p>{notification.message}</p>
+          </div>
         </Fragment>
       )}
     </div>

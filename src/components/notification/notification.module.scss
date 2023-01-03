@@ -3,7 +3,31 @@
   bottom: 20px;
   right: -100%;
   min-height: 50px;
-  width: 150px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border: {
+    radius: 4px;
+  }
   opacity: 0;
   z-index: 40;
+
+  .icon {
+    width: 16px;
+    margin: {
+      right: 4px;
+    }
+  }
+
+  .contentWrapper {
+    font: {
+      size: 10px;
+    }
+    .title {
+      font: {
+        weight: bold;
+      }
+    }
+  }
 }
