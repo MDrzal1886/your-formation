@@ -1,2 +1,56 @@
 .inputWrapper {
+  min-height: 58px;
+
+  .labelWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 6px;
+
+    .label {
+      line-height: 14px;
+      color: gray;
+      font: {
+        size: 12px;
+      }
+    }
+
+    .input {
+      padding: 0 3px;
+      border: {
+        style: solid;
+        color: gray;
+        width: 1px;
+        radius: 4px;
+      }
+      line-height: 24px;
+    }
+
+    .error {
+      border: {
+        color: red;
+      }
+    }
+  }
+
+  .validationMessage {
+    display: flex;
+    align-items: center;
+    margin: {
+      top: 2px;
+    }
+    padding: 0 6px;
+    line-height: 14px;
+    color: red;
+    font: {
+      size: 12px;
+    }
+
+    svg {
+      width: 10px;
+      margin: {
+        right: 2px;
+      }
+      fill: red;
+    }
+  }
 }
