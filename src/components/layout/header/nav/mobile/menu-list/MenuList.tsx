@@ -12,6 +12,7 @@ import { ModalsContent } from 'src/utils/getModalsContent';
 import useNotificationContext, {
   NotificationStatus
 } from 'src/context/NotificationContext';
+import Button from 'src/components/design-system/button/Button';
 
 interface IProps {
   isMenuOpen: boolean;
@@ -40,7 +41,6 @@ const MenuList: FC<IProps> = ({ isMenuOpen, hamburgerButton, closeMenu }) => {
           status: NotificationStatus.Success,
           message: 'Success'
         });
-        closeMenu();
       }
     } catch (error) {
       showNotification({
@@ -50,6 +50,18 @@ const MenuList: FC<IProps> = ({ isMenuOpen, hamburgerButton, closeMenu }) => {
       });
       console.log(error);
     }
+  };
+
+  const logInClick = () => {
+    closeMenu();
+    passModalContent(ModalsContent.LogIn);
+    openModal();
+  };
+
+  const signUpClick = () => {
+    closeMenu();
+    passModalContent(ModalsContent.SignUp);
+    openModal();
   };
 
   useEffect(() => {
@@ -103,28 +115,14 @@ const MenuList: FC<IProps> = ({ isMenuOpen, hamburgerButton, closeMenu }) => {
           </Link>
         </li>
       </ul>
-      {status === 'authenticated' ? (
-        <button onClick={logOut}>Log out</button>
-      ) : (
-        <button
-          onClick={() => {
-            closeMenu();
-            passModalContent(ModalsContent.LogIn);
-            openModal();
-          }}
-        >
-          Log in
-        </button>
-      )}
-      <button
-        onClick={() => {
-          closeMenu();
-          passModalContent(ModalsContent.SignUp);
-          openModal();
-        }}
-      >
-        Sign Up
-      </button>
+      <Button
+        text={status === 'authenticated' ? 'Log out' : 'Log in'}
+        onClickFn={status === 'authenticated' ? logOut : logInClick}
+      />
+      <Button
+        text="Sign up"
+        onClickFn={signUpClick}
+      />
       <ThemeSwitch />
     </div>
   );

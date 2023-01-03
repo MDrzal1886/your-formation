@@ -5,12 +5,18 @@ import Loader from './loader/Loader';
 
 interface IProps {
   text: string;
-  isLoading: boolean;
+  isLoading?: boolean;
+  onClickFn?: () => void;
 }
 
-const Button: FC<IProps> = ({ text, isLoading }) => {
+const Button: FC<IProps> = ({ text, isLoading, onClickFn }) => {
   return (
-    <button className={styles.button}>{isLoading ? <Loader /> : text}</button>
+    <button
+      className={styles.button}
+      onClick={onClickFn}
+    >
+      {isLoading ? <Loader /> : text}
+    </button>
   );
 };
 
