@@ -24,6 +24,8 @@
   --headerBackground: white;
   --footerBackground: black;
   --footerSocialsFill: white;
+  --buttonBackground: black;
+  --buttonTextColor: white;
 }
 
 [data-theme='dark'] {
@@ -36,4 +38,5 @@
   --headerBackground: black;
   --footerBackground: white;
   --footerSocialsFill: black;
+  --buttonBackground: white;
 }
