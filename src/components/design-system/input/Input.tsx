@@ -2,7 +2,7 @@ import { FC, forwardRef, HTMLInputTypeAttribute, PropsWithoutRef } from 'react';
 import { FieldError } from 'react-hook-form';
 
 import styles from './input.module.scss';
-import ErrorIcon from 'src/assets/svg/error-validation.svg';
+import ErrorIcon from 'src/assets/svg/error.svg';
 
 interface IProps {
   type: HTMLInputTypeAttribute;
@@ -26,7 +26,7 @@ const Input: FC<IProps> = forwardRef<HTMLInputElement, IProps>(
         </label>
         {error && (
           <span className={styles.validationMessage}>
-            <ErrorIcon />
+            <ErrorIcon className={styles.errorIcon} />
             {error.message}
           </span>
         )}

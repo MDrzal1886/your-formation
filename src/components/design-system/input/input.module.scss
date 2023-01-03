@@ -6,6 +6,7 @@
     flex-direction: column;
 
     .label {
+      padding: 0 2px;
       line-height: 14px;
       color: gray;
       font: {
@@ -37,14 +38,14 @@
     margin: {
       top: 2px;
     }
-    padding: 0 6px;
+    padding: 0 2px;
     line-height: 14px;
     color: red;
     font: {
       size: 12px;
     }
 
-    svg {
+    .errorIcon {
       width: 10px;
       margin: {
         right: 2px;
