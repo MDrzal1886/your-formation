@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DraggableData, DraggableEvent } from 'react-draggable';
 
 import type { IPlayersPosition } from 'src/api/db/types';
@@ -10,6 +10,10 @@ const useFormation = (
   isLandscape: boolean
 ) => {
   const [playersPositions, setPlayersPositions] = useState(players);
+
+  useEffect(() => {
+    setPlayersPositions(players);
+  }, [players]);
 
   const handleOnStop = (
     e: DraggableEvent,

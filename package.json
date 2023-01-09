@@ -23,7 +23,8 @@
     "react-draggable": "^4.4.5",
     "react-hook-form": "^7.41.0",
     "react-use": "^17.4.0",
-    "sass": "^1.56.1"
+    "sass": "^1.56.1",
+    "swiper": "^8.4.5"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
