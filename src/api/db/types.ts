@@ -17,7 +17,7 @@ export interface IPlayersPosition {
 }
 
 export interface IFormation {
-  createdBy: ObjectId;
+  createdBy?: ObjectId;
   formationName: string;
   playersPositions: IPlayersPosition[];
 }

@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (
     .toArray();
 
   const userFormations = formations.filter(
-    (formation) => formation.createdBy.toString() === userId
+    (formation) => formation.createdBy?.toString() === userId
   );
 
   return {
